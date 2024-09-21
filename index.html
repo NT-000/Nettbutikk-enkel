@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CrapStore</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div id="app"></div>
+
+    <script>
+      let shopStuff = ["Tomato", "Salad", "Juice"];
+      let prices = [10, 7, 15];
+      let shoppingCart = [];
+      let totalPrice = 0;
+
+      function updateView() {
+        html = "";
+        html = /*HTML*/ `
+    <div class="shop-items">
+        <h2>CrapStore</h2>
+    ${showItems()}</div>
+    <div class="cart">
+        <h3>Your Shopping Cart</h3>
+    <div>${drawShoppingCart()}</div>
+    <div>Total: ${totalPrice}</div>
+    <button onclick="checkout()">Pay</button>
+    </div>`;
+
+        document.getElementById("app").innerHTML = html;
+      }
+
+      function showItems() {
+        let revealItems = "";
+        for (let i = 0; i < shopStuff.length; i++) {
+          revealItems += /*HTML*/ `
+          <div class="shop-items">
+            <span>${shopStuff[i]} </span>
+            <span>Price: ${prices[i]} Kr</span>
+        <button onclick="addToCart(${i})">Add</button>
+        </div>`;
+        }
+        return revealItems;
+      }
+
+      function addToCart(whichGrocery) {
+        totalPrice += prices[whichGrocery];
+        shoppingCart.push(shopStuff[whichGrocery]);
+        updateView();
+      }
+
+      function checkout() {
+        alert(`You paid ${totalPrice} Kr`);
+        shoppingCart = [];
+        totalPrice = 0;
+        updateView();
+      }
+
+      function drawShoppingCart() {
+        shoppingCartItems = ``;
+        for (let i = 0; i < shoppingCart.length; i++) {
+          shoppingCartItems += /*HTML*/ `
+            <div class="cart-item">${shoppingCart[i]}</div>`;
+        }
+        return shoppingCartItems || "Your cart is empty.";
+      }
+
+      updateView();
+    </script>
+  </body>
+</html>
